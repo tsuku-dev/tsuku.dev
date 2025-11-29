@@ -24,13 +24,13 @@ Use path filtering to only run on PRs that modify index.html, but always run dai
 - `.github/workflows/quickstart-validation.yml` - New workflow for quick-start validation
 
 ## Implementation Steps
-- [ ] Create workflow with PR trigger (path filter for index.html)
-- [ ] Add daily schedule trigger
-- [ ] Add manual trigger for testing
-- [ ] Install tsuku using install script
-- [ ] Run `tsuku install kubectl` and validate output
-- [ ] Run `tsuku install terraform helm k6` and validate output
-- [ ] Run `tsuku list` and validate output
+- [x] Create workflow with PR trigger (path filter for index.html)
+- [x] Add daily schedule trigger
+- [x] Add manual trigger for testing
+- [x] Install tsuku using install script
+- [x] Run `tsuku install kubectl` and validate output
+- [x] Run `tsuku install terraform helm k6` and validate output
+- [x] Run `tsuku list` and validate output
 
 ## Testing Strategy
 - Push to branch and verify workflow runs
