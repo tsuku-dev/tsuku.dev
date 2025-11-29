@@ -17,7 +17,6 @@ done
 REPO="tsuku-dev/tsuku"
 INSTALL_DIR="${TSUKU_INSTALL_DIR:-$HOME/.tsuku}"
 BIN_DIR="$INSTALL_DIR/bin"
-CURRENT_DIR="$INSTALL_DIR/tools/current"
 ENV_FILE="$INSTALL_DIR/env"
 
 # Detect OS
@@ -146,9 +145,11 @@ if [ "$MODIFY_PATH" = true ]; then
             echo "Shell already configured: $SHELL_CONFIG"
         else
             # Append source line
-            echo "" >> "$SHELL_CONFIG"
-            echo "# tsuku" >> "$SHELL_CONFIG"
-            echo "$SOURCE_LINE" >> "$SHELL_CONFIG"
+            {
+                echo ""
+                echo "# tsuku"
+                echo "$SOURCE_LINE"
+            } >> "$SHELL_CONFIG"
             echo "Configured shell: $SHELL_CONFIG"
         fi
         echo ""
