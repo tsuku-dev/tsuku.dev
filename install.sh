@@ -44,7 +44,12 @@ echo "Detected platform: ${OS}-${ARCH}"
 
 # Get latest release version
 echo "Fetching latest release..."
-LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+# Use GITHUB_TOKEN if available to avoid rate limiting
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    LATEST=$(curl -fsSL -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+else
+    LATEST=$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+fi
 
 if [ -z "$LATEST" ]; then
     echo "Failed to determine latest version" >&2
