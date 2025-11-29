@@ -7,8 +7,28 @@ on:
     branches: [main]
 
 jobs:
+  # Detect which files changed to conditionally run jobs
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      install: ${{ steps.filter.outputs.install }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            install:
+              - 'install.sh'
+
   shellcheck:
     name: ShellCheck
+    needs: changes
+    if: ${{ needs.changes.outputs.install == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +38,8 @@ jobs:
 
   install-linux:
     name: Install (Linux)
+    needs: changes
+    if: ${{ needs.changes.outputs.install == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,8 +68,45 @@ jobs:
           source "$HOME/.tsuku/env"
           tsuku --version
 
+      - name: Verify telemetry notice shown
+        run: |
+          # Notice file should be created when telemetry is enabled
+          test -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file not created" && exit 1)
+
+      - name: Test --no-telemetry flag
+        run: |
+          # Clean up previous install
+          rm -rf "$HOME/.tsuku"
+
+          # Install with --no-telemetry
+          bash install.sh --no-modify-path --no-telemetry
+
+          # Verify TSUKU_NO_TELEMETRY is in env file
+          grep -q "export TSUKU_NO_TELEMETRY=1" "$HOME/.tsuku/env" || (echo "TSUKU_NO_TELEMETRY not in env file" && exit 1)
+
+          # Verify notice file was NOT created
+          test ! -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file should not exist with --no-telemetry" && exit 1)
+
+      - name: Test TSUKU_NO_TELEMETRY env var
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Clean up previous install
+          rm -rf "$HOME/.tsuku"
+
+          # Install with env var set
+          TSUKU_NO_TELEMETRY=1 bash install.sh --no-modify-path
+
+          # Verify TSUKU_NO_TELEMETRY is in env file
+          grep -q "export TSUKU_NO_TELEMETRY=1" "$HOME/.tsuku/env" || (echo "TSUKU_NO_TELEMETRY not in env file" && exit 1)
+
+          # Verify notice file was NOT created
+          test ! -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file should not exist when env var is set" && exit 1)
+
   install-macos:
     name: Install (macOS)
+    needs: changes
+    if: ${{ needs.changes.outputs.install == 'true' }}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -75,3 +134,38 @@ jobs:
         run: |
           source "$HOME/.tsuku/env"
           tsuku --version
+
+      - name: Verify telemetry notice shown
+        run: |
+          # Notice file should be created when telemetry is enabled
+          test -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file not created" && exit 1)
+
+      - name: Test --no-telemetry flag
+        run: |
+          # Clean up previous install
+          rm -rf "$HOME/.tsuku"
+
+          # Install with --no-telemetry
+          bash install.sh --no-modify-path --no-telemetry
+
+          # Verify TSUKU_NO_TELEMETRY is in env file
+          grep -q "export TSUKU_NO_TELEMETRY=1" "$HOME/.tsuku/env" || (echo "TSUKU_NO_TELEMETRY not in env file" && exit 1)
+
+          # Verify notice file was NOT created
+          test ! -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file should not exist with --no-telemetry" && exit 1)
+
+      - name: Test TSUKU_NO_TELEMETRY env var
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Clean up previous install
+          rm -rf "$HOME/.tsuku"
+
+          # Install with env var set
+          TSUKU_NO_TELEMETRY=1 bash install.sh --no-modify-path
+
+          # Verify TSUKU_NO_TELEMETRY is in env file
+          grep -q "export TSUKU_NO_TELEMETRY=1" "$HOME/.tsuku/env" || (echo "TSUKU_NO_TELEMETRY not in env file" && exit 1)
+
+          # Verify notice file was NOT created
+          test ! -f "$HOME/.tsuku/telemetry_notice_shown" || (echo "telemetry notice file should not exist when env var is set" && exit 1)
