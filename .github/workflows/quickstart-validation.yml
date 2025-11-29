@@ -36,45 +36,24 @@ jobs:
       - name: Verify tsuku installed
         run: tsuku --version
 
-      - name: "Test: tsuku install kubectl"
+      # Test installing a single tool
+      # Using k9s as it exists in the registry and is a quick install
+      - name: "Test: tsuku install k9s"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Running: tsuku install kubectl"
-          echo "tsuku binary location: $(which tsuku)"
-          echo "tsuku version: $(tsuku --version)"
-
-          # Run with explicit error handling
-          set +e
-          tsuku install kubectl
-          EXIT_CODE=$?
-          set -e
-
-          echo "Exit code: $EXIT_CODE"
-          if [ $EXIT_CODE -ne 0 ]; then
-            echo "ERROR: tsuku install kubectl failed with exit code $EXIT_CODE"
-            exit 1
-          fi
-
+          echo "Running: tsuku install k9s"
+          tsuku install k9s
           echo "Validation passed"
 
-      - name: "Test: tsuku install terraform helm k6"
+      # Test installing multiple tools at once
+      # Using tools that exist in the registry: terraform, k6, jq
+      - name: "Test: tsuku install terraform k6 jq"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Running: tsuku install terraform helm k6"
-
-          set +e
-          tsuku install terraform helm k6
-          EXIT_CODE=$?
-          set -e
-
-          echo "Exit code: $EXIT_CODE"
-          if [ $EXIT_CODE -ne 0 ]; then
-            echo "ERROR: tsuku install terraform helm k6 failed with exit code $EXIT_CODE"
-            exit 1
-          fi
-
+          echo "Running: tsuku install terraform k6 jq"
+          tsuku install terraform k6 jq
           echo "Validation passed"
 
       - name: "Test: tsuku list"
@@ -87,16 +66,16 @@ jobs:
         run: |
           echo "Verifying installed tools are executable..."
 
-          kubectl version --client --output=yaml | head -5
-          echo "kubectl: OK"
+          k9s version --short
+          echo "k9s: OK"
 
           terraform version | head -1
           echo "terraform: OK"
 
-          helm version --short
-          echo "helm: OK"
-
           k6 version
           echo "k6: OK"
+
+          jq --version
+          echo "jq: OK"
 
           echo "All tools executable"
