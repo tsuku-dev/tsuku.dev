@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run install script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash install.sh --no-modify-path
 
       - name: Verify env file created
@@ -51,6 +53,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run install script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash install.sh --no-modify-path
 
       - name: Verify env file created
