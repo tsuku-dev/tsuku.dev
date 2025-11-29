@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - '.github/workflows/quickstart-validation.yml'
   pull_request:
     branches: [main]
     paths:
       - 'index.html'
+      - '.github/workflows/quickstart-validation.yml'
   schedule:
     # Run daily at 06:00 UTC (offset from health-check at 00:00)
     - cron: '0 6 * * *'
