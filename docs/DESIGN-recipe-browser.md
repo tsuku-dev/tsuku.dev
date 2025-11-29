@@ -1,6 +1,6 @@
 # Design: Recipe Browser Page
 
-**Status**: Accepted
+**Status**: Planned
 
 ## Context and Problem Statement
 
@@ -380,3 +380,15 @@ Deliverable: Users can navigate to recipe browser from any page.
 - Loading skeleton provides immediate visual feedback
 - GitHub Pages has excellent uptime; error state handles failures gracefully
 - SEO for individual tools is not a priority (users search for "tsuku" not specific tools)
+
+## Implementation Issues
+
+**Milestone**: [Recipe Browser](https://github.com/tsuku-dev/tsuku.dev/milestone/1)
+
+| Issue | Title | Dependencies |
+|-------|-------|--------------|
+| #22 | feat(recipes): add static page structure with skeleton UI | registry.tsuku.dev (external) |
+| #23 | feat(recipes): fetch and render recipe cards with error handling | #22 |
+| #24 | feat(recipes): implement search with debounced filtering | #23 |
+| #25 | style(recipes): add recipe card and grid styles | #23 |
+| #26 | feat: add recipes navigation to site header and footer | None |
