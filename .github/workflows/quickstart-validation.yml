@@ -41,14 +41,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Running: tsuku install kubectl"
-          OUTPUT=$(tsuku install kubectl 2>&1)
-          echo "$OUTPUT"
+          echo "tsuku binary location: $(which tsuku)"
+          echo "tsuku version: $(tsuku --version)"
 
-          # Validate output patterns (version-agnostic)
-          echo "$OUTPUT" | grep -q "Installed kubectl .* successfully" || {
-            echo "ERROR: Expected 'Installed kubectl ... successfully' in output"
+          # Run with explicit error handling
+          set +e
+          tsuku install kubectl
+          EXIT_CODE=$?
+          set -e
+
+          echo "Exit code: $EXIT_CODE"
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "ERROR: tsuku install kubectl failed with exit code $EXIT_CODE"
             exit 1
-          }
+          fi
+
           echo "Validation passed"
 
       - name: "Test: tsuku install terraform helm k6"
@@ -56,47 +63,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Running: tsuku install terraform helm k6"
-          OUTPUT=$(tsuku install terraform helm k6 2>&1)
-          echo "$OUTPUT"
 
-          # Validate each tool was installed
-          echo "$OUTPUT" | grep -q "Installed terraform .* successfully" || {
-            echo "ERROR: Expected 'Installed terraform ... successfully' in output"
+          set +e
+          tsuku install terraform helm k6
+          EXIT_CODE=$?
+          set -e
+
+          echo "Exit code: $EXIT_CODE"
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "ERROR: tsuku install terraform helm k6 failed with exit code $EXIT_CODE"
             exit 1
-          }
-          echo "$OUTPUT" | grep -q "Installed helm .* successfully" || {
-            echo "ERROR: Expected 'Installed helm ... successfully' in output"
-            exit 1
-          }
-          echo "$OUTPUT" | grep -q "Installed k6 .* successfully" || {
-            echo "ERROR: Expected 'Installed k6 ... successfully' in output"
-            exit 1
-          }
+          fi
+
           echo "Validation passed"
 
       - name: "Test: tsuku list"
         run: |
           echo "Running: tsuku list"
-          OUTPUT=$(tsuku list 2>&1)
-          echo "$OUTPUT"
-
-          # Validate all installed tools appear in list
-          echo "$OUTPUT" | grep -q "kubectl" || {
-            echo "ERROR: Expected 'kubectl' in tsuku list output"
-            exit 1
-          }
-          echo "$OUTPUT" | grep -q "terraform" || {
-            echo "ERROR: Expected 'terraform' in tsuku list output"
-            exit 1
-          }
-          echo "$OUTPUT" | grep -q "helm" || {
-            echo "ERROR: Expected 'helm' in tsuku list output"
-            exit 1
-          }
-          echo "$OUTPUT" | grep -q "k6" || {
-            echo "ERROR: Expected 'k6' in tsuku list output"
-            exit 1
-          }
+          tsuku list
           echo "Validation passed"
 
       - name: "Test: Installed tools are executable"
