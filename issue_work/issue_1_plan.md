@@ -18,9 +18,9 @@ Fix install.sh to construct the correct binary name using the pattern `tsuku-{os
 None
 
 ## Implementation Steps
-- [ ] Update BINARY_NAME to use pattern `tsuku-{os}-{arch}_{version}_{os}_{arch}`
-- [ ] Strip `v` prefix from version for the filename (v0.1.0 -> 0.1.0)
-- [ ] Update checksum grep pattern to match new binary name
+- [x] Update BINARY_NAME to use pattern `tsuku-{os}-{arch}_{version}_{os}_{arch}`
+- [x] Strip `v` prefix from version for the filename (v0.1.0 -> 0.1.0)
+- [x] Update checksum grep pattern to match new binary name
 
 ## Testing Strategy
 - Manual verification: Run the script and verify the constructed URL matches actual release assets
