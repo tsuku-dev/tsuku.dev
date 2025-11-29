@@ -4,9 +4,21 @@ set -euo pipefail
 # tsuku installer
 # Downloads and installs the latest tsuku release
 
+# Parse arguments
+MODIFY_PATH=true
+for arg in "$@"; do
+    case "$arg" in
+        --no-modify-path)
+            MODIFY_PATH=false
+            ;;
+    esac
+done
+
 REPO="tsuku-dev/tsuku"
 INSTALL_DIR="${TSUKU_INSTALL_DIR:-$HOME/.tsuku}"
 BIN_DIR="$INSTALL_DIR/bin"
+CURRENT_DIR="$INSTALL_DIR/tools/current"
+ENV_FILE="$INSTALL_DIR/env"
 
 # Detect OS
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -85,10 +97,68 @@ echo ""
 echo "tsuku ${LATEST} installed successfully!"
 echo ""
 
-# Check if bin directory is in PATH
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
-    echo "Add tsuku to your PATH by adding this to your shell config:"
+# Create env file with PATH exports
+cat > "$ENV_FILE" << 'ENVEOF'
+# tsuku shell configuration
+# Add tsuku directories to PATH
+
+# Set TSUKU_HOME if not already set
+export TSUKU_HOME="${TSUKU_HOME:-$HOME/.tsuku}"
+
+# Add tsuku bin and tools/current to PATH
+export PATH="$TSUKU_HOME/bin:$TSUKU_HOME/tools/current:$PATH"
+ENVEOF
+
+# Configure shell if requested
+if [ "$MODIFY_PATH" = true ]; then
+    # Determine shell config file based on $SHELL
+    SHELL_NAME=$(basename "$SHELL")
+    SHELL_CONFIG=""
+
+    case "$SHELL_NAME" in
+        bash)
+            # Prefer .bash_profile for login shells, fall back to .profile
+            if [ -f "$HOME/.bash_profile" ]; then
+                SHELL_CONFIG="$HOME/.bash_profile"
+            elif [ -f "$HOME/.profile" ]; then
+                SHELL_CONFIG="$HOME/.profile"
+            else
+                # Create .bash_profile if neither exists
+                SHELL_CONFIG="$HOME/.bash_profile"
+            fi
+            ;;
+        zsh)
+            SHELL_CONFIG="$HOME/.zshenv"
+            ;;
+        *)
+            echo "Unknown shell: $SHELL_NAME"
+            echo "Add this to your shell config to use tsuku:"
+            echo ""
+            echo "  . \"$ENV_FILE\""
+            echo ""
+            ;;
+    esac
+
+    if [ -n "$SHELL_CONFIG" ]; then
+        # Check if source line already exists (idempotent)
+        SOURCE_LINE=". \"$ENV_FILE\""
+        if [ -f "$SHELL_CONFIG" ] && grep -qF "$ENV_FILE" "$SHELL_CONFIG" 2>/dev/null; then
+            echo "Shell already configured: $SHELL_CONFIG"
+        else
+            # Append source line
+            echo "" >> "$SHELL_CONFIG"
+            echo "# tsuku" >> "$SHELL_CONFIG"
+            echo "$SOURCE_LINE" >> "$SHELL_CONFIG"
+            echo "Configured shell: $SHELL_CONFIG"
+        fi
+        echo ""
+        echo "Restart your shell or run:"
+        echo "  source \"$ENV_FILE\""
+    fi
+else
+    echo "Skipped shell configuration (--no-modify-path)"
     echo ""
-    echo "  export PATH=\"\$HOME/.tsuku/bin:\$PATH\""
+    echo "To use tsuku, add this to your shell config:"
+    echo "  . \"$ENV_FILE\""
     echo ""
 fi

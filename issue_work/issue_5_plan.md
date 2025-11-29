@@ -23,12 +23,12 @@ Follow industry standard (rustup pattern):
 None (env file is created at runtime in user's home)
 
 ## Implementation Steps
-- [ ] Add `--no-modify-path` flag parsing at script start
-- [ ] Create function to write env file with PATH exports
-- [ ] Create function to detect shell and return config file path
-- [ ] Create function to add source line idempotently
-- [ ] Replace manual PATH instructions with auto-configuration
-- [ ] Add clear feedback messages for what was modified
+- [x] Add `--no-modify-path` flag parsing at script start
+- [x] Create function to write env file with PATH exports
+- [x] Create function to detect shell and return config file path
+- [x] Create function to add source line idempotently
+- [x] Replace manual PATH instructions with auto-configuration
+- [x] Add clear feedback messages for what was modified
 
 ## Testing Strategy
 - Manual verification: Run script and verify shell config is modified
