@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: shellcheck install.sh
+
+  install-linux:
+    name: Install (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run install script
+        run: bash install.sh --no-modify-path
+
+      - name: Verify installation
+        run: |
+          export PATH="$HOME/.tsuku/bin:$PATH"
+          tsuku --version
+
+  install-macos:
+    name: Install (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run install script
+        run: bash install.sh --no-modify-path
+
+      - name: Verify installation
+        run: |
+          export PATH="$HOME/.tsuku/bin:$PATH"
+          tsuku --version

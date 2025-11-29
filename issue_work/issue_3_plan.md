@@ -19,11 +19,11 @@ None
 - `.github/workflows/ci.yml` - CI workflow for install.sh validation
 
 ## Implementation Steps
-- [ ] Create .github/workflows directory
-- [ ] Create ci.yml with ShellCheck job
-- [ ] Add Linux install test job (ubuntu-latest)
-- [ ] Add macOS install test job (macos-latest)
-- [ ] Verify installed binary works (tsuku --version)
+- [x] Create .github/workflows directory
+- [x] Create ci.yml with ShellCheck job
+- [x] Add Linux install test job (ubuntu-latest)
+- [x] Add macOS install test job (macos-latest)
+- [x] Verify installed binary works (tsuku --version)
 
 ## Testing Strategy
 - CI will run on the PR itself, providing immediate validation
