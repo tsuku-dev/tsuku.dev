@@ -19,11 +19,11 @@ None
 - `.github/workflows/health-check.yml` - Scheduled health check workflow
 
 ## Implementation Steps
-- [ ] Create health-check.yml with daily cron schedule
-- [ ] Add curl command to fetch the endpoint
-- [ ] Verify HTTP status code is 200
-- [ ] Verify response body is non-empty
-- [ ] Add workflow_dispatch for manual triggering
+- [x] Create health-check.yml with daily cron schedule
+- [x] Add curl command to fetch the endpoint
+- [x] Verify HTTP status code is 200
+- [x] Verify response body is non-empty
+- [x] Add workflow_dispatch for manual triggering
 
 ## Testing Strategy
 - Manual trigger via workflow_dispatch to verify it works
