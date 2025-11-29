@@ -40,16 +40,6 @@ python3 -m http.server 8000
 npx serve
 ```
 
-## Updating install.sh
-
-The `install.sh` file should match the one in the main [tsuku repository](https://github.com/tsuku-dev/tsuku/blob/main/install.sh).
-
-To update:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/tsuku-dev/tsuku/main/install.sh -o install.sh
-```
-
 ## License
 
 MIT License - See the main [tsuku repository](https://github.com/tsuku-dev/tsuku) for details.
