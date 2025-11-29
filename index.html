@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="tsuku - A self-contained package manager for developer tools. Install kubectl, terraform, helm, and 150+ tools without sudo.">
+    <meta name="description" content="tsuku - A self-contained package manager for developer tools. Install terraform, k9s, jq, and 150+ tools without sudo.">
     <title>tsuku - Developer Tool Manager</title>
     <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -46,30 +46,30 @@
             </div>
             <div class="feature">
                 <h3>150+ tools</h3>
-                <p>kubectl, terraform, helm, k6, docker, gh, and many more. Version management included.</p>
+                <p>terraform, k9s, k6, jq, trivy, gh, and many more. Version management included.</p>
             </div>
         </section>
 
         <section class="quickstart">
             <h2>Quick Start</h2>
             <div class="code-block">
-                <pre><code><span class="prompt">$</span> tsuku install kubectl
+                <pre><code><span class="prompt">$</span> tsuku install k9s
 <span class="output">Resolving version: latest
-Downloading kubectl 1.29.3...
-Installing kubectl-1.29.3 to ~/.tsuku/tools/
+Downloading k9s 0.32.4...
+Installing k9s-0.32.4 to ~/.tsuku/tools/
 Creating symlinks in ~/.tsuku/bin/
-Installed kubectl 1.29.3 successfully</span>
+Installed k9s 0.32.4 successfully</span>
 
-<span class="prompt">$</span> tsuku install terraform helm k6
+<span class="prompt">$</span> tsuku install terraform k6 jq
 <span class="output">Installed terraform 1.7.4 successfully
-Installed helm 3.14.2 successfully
-Installed k6 0.49.0 successfully</span>
+Installed k6 0.49.0 successfully
+Installed jq 1.7.1 successfully</span>
 
 <span class="prompt">$</span> tsuku list
-<span class="output">kubectl    1.29.3
+<span class="output">k9s        0.32.4
 terraform  1.7.4
-helm       3.14.2
-k6         0.49.0</span></code></pre>
+k6         0.49.0
+jq         1.7.1</span></code></pre>
             </div>
         </section>
 
