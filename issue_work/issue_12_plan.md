@@ -19,11 +19,11 @@ Extend the existing argument parsing to handle `--no-telemetry`. When used, add 
 - None
 
 ## Implementation Steps
-- [ ] Add --no-telemetry to argument parsing
-- [ ] Check for existing TSUKU_NO_TELEMETRY environment variable
-- [ ] Add TSUKU_NO_TELEMETRY=1 to env file when flag used or env var set
-- [ ] Print disclaimer to stderr when telemetry enabled (no flag, no env var)
-- [ ] Create marker file when disclaimer shown
+- [x] Add --no-telemetry to argument parsing
+- [x] Check for existing TSUKU_NO_TELEMETRY environment variable
+- [x] Add TSUKU_NO_TELEMETRY=1 to env file when flag used or env var set
+- [x] Print disclaimer to stderr when telemetry enabled (no flag, no env var)
+- [x] Create marker file when disclaimer shown
 
 ## Testing Strategy
 - Manual: Run with --no-telemetry, verify env file contains export

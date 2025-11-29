@@ -6,18 +6,28 @@ set -euo pipefail
 
 # Parse arguments
 MODIFY_PATH=true
+NO_TELEMETRY=false
 for arg in "$@"; do
     case "$arg" in
         --no-modify-path)
             MODIFY_PATH=false
             ;;
+        --no-telemetry)
+            NO_TELEMETRY=true
+            ;;
     esac
 done
+
+# Respect existing TSUKU_NO_TELEMETRY environment variable
+if [ -n "${TSUKU_NO_TELEMETRY:-}" ]; then
+    NO_TELEMETRY=true
+fi
 
 REPO="tsuku-dev/tsuku"
 INSTALL_DIR="${TSUKU_INSTALL_DIR:-$HOME/.tsuku}"
 BIN_DIR="$INSTALL_DIR/bin"
 ENV_FILE="$INSTALL_DIR/env"
+TELEMETRY_NOTICE_FILE="$INSTALL_DIR/telemetry_notice_shown"
 
 # Detect OS
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -113,6 +123,15 @@ export TSUKU_HOME="${TSUKU_HOME:-$HOME/.tsuku}"
 export PATH="$TSUKU_HOME/bin:$TSUKU_HOME/tools/current:$PATH"
 ENVEOF
 
+# Add telemetry opt-out to env file if requested
+if [ "$NO_TELEMETRY" = true ]; then
+    cat >> "$ENV_FILE" << 'ENVEOF'
+
+# Telemetry opt-out (set during installation)
+export TSUKU_NO_TELEMETRY=1
+ENVEOF
+fi
+
 # Configure shell if requested
 if [ "$MODIFY_PATH" = true ]; then
     # Determine shell config file based on $SHELL
@@ -167,4 +186,17 @@ else
     echo "To use tsuku, add this to your shell config:"
     echo "  . \"$ENV_FILE\""
     echo ""
+fi
+
+# Show telemetry notice if telemetry is enabled
+if [ "$NO_TELEMETRY" = false ]; then
+    # Print disclaimer to stderr
+    cat >&2 << 'NOTICE'
+tsuku collects anonymous usage statistics to improve the tool.
+No personal information is collected. See: https://tsuku.dev/telemetry
+
+To opt out: export TSUKU_NO_TELEMETRY=1
+NOTICE
+    # Create marker file so CLI doesn't show notice again
+    touch "$TELEMETRY_NOTICE_FILE"
 fi
