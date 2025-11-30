@@ -23,12 +23,12 @@ None (CSS changes will be added in issue #25)
 
 ## Implementation Steps
 
-- [ ] Add search input with ARIA label and placeholder
-- [ ] Add recipe count display element (hidden initially, shown by JS later)
-- [ ] Add recipe grid container element
-- [ ] Add loading skeleton with 6 placeholder cards
-- [ ] Add `<noscript>` message with link to GitHub registry
-- [ ] Remove old "Coming Soon" placeholder content
+- [x] Add search input with ARIA label and placeholder
+- [x] Add recipe count display element (hidden initially, shown by JS later)
+- [x] Add recipe grid container element
+- [x] Add loading skeleton with 6 placeholder cards
+- [x] Add `<noscript>` message with link to GitHub registry
+- [x] Remove old "Coming Soon" placeholder content
 
 ## Testing Strategy
 

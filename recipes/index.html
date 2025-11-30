@@ -25,10 +25,59 @@
             <p class="tagline">Browse available tools</p>
         </section>
 
-        <section class="content">
-            <h2>Coming Soon</h2>
-            <p>A searchable list of 150+ available recipes will appear here.</p>
-            <p>In the meantime, browse recipes on GitHub:</p>
+        <section class="recipe-browser">
+            <div class="search-container">
+                <input
+                    type="search"
+                    id="recipe-search"
+                    class="recipe-search"
+                    placeholder="Search recipes..."
+                    aria-label="Search recipes"
+                >
+            </div>
+
+            <p id="recipe-count" class="recipe-count" hidden></p>
+
+            <div id="recipe-grid" class="recipe-grid">
+                <!-- Loading skeleton -->
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+                <div class="recipe-skeleton">
+                    <div class="skeleton-name"></div>
+                    <div class="skeleton-desc"></div>
+                    <div class="skeleton-link"></div>
+                </div>
+            </div>
+
+            <noscript>
+                <p class="noscript-message">
+                    JavaScript is required to browse recipes.
+                    <a href="https://github.com/tsuku-dev/tsuku-registry/tree/main/recipes">View recipes on GitHub</a>
+                </p>
+            </noscript>
         </section>
 
         <section class="links">
