@@ -23,13 +23,13 @@ None
 
 ## Implementation Steps
 
-- [ ] Add fetch logic on DOMContentLoaded with 10s timeout
-- [ ] Add recipe validation function (name, description, homepage; HTTPS URL)
-- [ ] Add renderRecipes function using createElement/textContent
-- [ ] Add recipe count display logic
-- [ ] Add error state rendering with retry button
-- [ ] Add fetch guard to prevent concurrent requests
-- [ ] Add empty state handling
+- [x] Add fetch logic on DOMContentLoaded with 10s timeout
+- [x] Add recipe validation function (name, description, homepage; HTTPS URL)
+- [x] Add renderRecipes function using createElement/textContent
+- [x] Add recipe count display logic
+- [x] Add error state rendering with retry button
+- [x] Add fetch guard to prevent concurrent requests
+- [x] Add empty state handling
 
 ## Testing Strategy
 
