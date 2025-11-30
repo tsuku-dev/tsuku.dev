@@ -19,16 +19,39 @@
         </nav>
     </header>
 
-    <main>
+    <main class="wide">
         <section class="hero">
             <h1>Recipes</h1>
             <p class="tagline">Browse available tools</p>
         </section>
 
-        <section class="content">
-            <h2>Coming Soon</h2>
-            <p>A searchable list of 150+ available recipes will appear here.</p>
-            <p>In the meantime, browse recipes on GitHub:</p>
+        <section class="recipe-browser">
+            <div class="search-container">
+                <input
+                    type="search"
+                    id="recipe-search"
+                    class="recipe-search"
+                    placeholder="Search 150+ recipes..."
+                    aria-label="Search recipes"
+                >
+            </div>
+
+            <p id="recipe-count" class="recipe-count" hidden></p>
+
+            <div id="recipe-grid" class="recipe-grid">
+                <!-- Loading state (replaced by JS) -->
+                <div class="loading-state" id="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading recipes...</p>
+                </div>
+            </div>
+
+            <noscript>
+                <div class="noscript-message">
+                    <p>JavaScript is required to browse recipes.</p>
+                    <p><a href="https://github.com/tsuku-dev/tsuku-registry/tree/main/recipes">View recipes on GitHub</a></p>
+                </div>
+            </noscript>
         </section>
 
         <section class="links">
