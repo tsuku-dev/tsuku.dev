@@ -156,6 +156,10 @@ main {
     text-decoration: none;
 }
 
+.feature-link a:visited {
+    color: #6e7681;
+}
+
 .feature-link a:hover {
     text-decoration: underline;
 }
