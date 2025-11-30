@@ -147,8 +147,17 @@ main {
     border-radius: 4px;
 }
 
-.feature a {
+.feature-link {
+    margin-top: 0.75rem;
+}
+
+.feature-link a {
     color: var(--accent);
+    text-decoration: none;
+}
+
+.feature-link a:hover {
+    text-decoration: underline;
 }
 
 /* Quick Start */
