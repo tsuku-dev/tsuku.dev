@@ -75,6 +75,35 @@
         let allRecipes = [];
         let isFetching = false;
 
+        // Debounce utility
+        function debounce(fn, delay) {
+            let timeoutId;
+            return function(...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        // Filter recipes by search query
+        function filterRecipes(query) {
+            const searchTerm = query.toLowerCase().trim();
+            if (!searchTerm) {
+                return allRecipes;
+            }
+            return allRecipes.filter(recipe =>
+                recipe.name.toLowerCase().includes(searchTerm) ||
+                recipe.description.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        // Handle search input
+        function handleSearch() {
+            const searchInput = document.getElementById('recipe-search');
+            const query = searchInput.value;
+            const filtered = filterRecipes(query);
+            renderRecipes(filtered, query.trim().length > 0);
+        }
+
         // Validate recipe has required fields and valid HTTPS URL
         function isValidRecipe(recipe) {
             if (!recipe || typeof recipe !== 'object') return false;
@@ -118,7 +147,7 @@
         }
 
         // Render recipes to the grid
-        function renderRecipes(recipes) {
+        function renderRecipes(recipes, isFiltered = false) {
             const grid = document.getElementById('recipe-grid');
             const countEl = document.getElementById('recipe-count');
 
@@ -128,7 +157,7 @@
                 const noResults = document.createElement('div');
                 noResults.className = 'no-results';
                 const msg = document.createElement('p');
-                msg.textContent = 'No recipes available.';
+                msg.textContent = isFiltered ? 'No recipes match your search.' : 'No recipes available.';
                 noResults.appendChild(msg);
                 grid.appendChild(noResults);
                 countEl.hidden = true;
@@ -139,7 +168,11 @@
                 grid.appendChild(createRecipeCard(recipe));
             });
 
-            countEl.textContent = `Showing ${recipes.length} recipes`;
+            if (isFiltered) {
+                countEl.textContent = `Showing ${recipes.length} of ${allRecipes.length} recipes`;
+            } else {
+                countEl.textContent = `Showing ${recipes.length} recipes`;
+            }
             countEl.hidden = false;
         }
 
@@ -235,8 +268,16 @@
             }
         }
 
-        // Load recipes on page load
-        document.addEventListener('DOMContentLoaded', loadRecipes);
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load recipes
+            loadRecipes();
+
+            // Set up search with debouncing
+            const searchInput = document.getElementById('recipe-search');
+            const debouncedSearch = debounce(handleSearch, 150);
+            searchInput.addEventListener('input', debouncedSearch);
+        });
     </script>
 </body>
 </html>
