@@ -383,6 +383,39 @@ main.wide {
     margin-bottom: 0.5rem;
 }
 
+/* Error State */
+.error-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.error-state p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.error-state button {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.error-fallback {
+    font-size: 0.85rem;
+}
+
+.error-fallback a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.error-fallback a:hover {
+    text-decoration: underline;
+}
+
 /* Noscript Message */
 .noscript-message {
     text-align: center;
