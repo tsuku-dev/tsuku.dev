@@ -19,7 +19,7 @@
         </nav>
     </header>
 
-    <main>
+    <main class="wide">
         <section class="hero">
             <h1>Recipes</h1>
             <p class="tagline">Browse available tools</p>
@@ -31,7 +31,7 @@
                     type="search"
                     id="recipe-search"
                     class="recipe-search"
-                    placeholder="Search recipes..."
+                    placeholder="Search 150+ recipes..."
                     aria-label="Search recipes"
                 >
             </div>
@@ -39,44 +39,18 @@
             <p id="recipe-count" class="recipe-count" hidden></p>
 
             <div id="recipe-grid" class="recipe-grid">
-                <!-- Loading skeleton -->
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
-                </div>
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
-                </div>
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
-                </div>
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
-                </div>
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
-                </div>
-                <div class="recipe-skeleton">
-                    <div class="skeleton-name"></div>
-                    <div class="skeleton-desc"></div>
-                    <div class="skeleton-link"></div>
+                <!-- Loading state (replaced by JS) -->
+                <div class="loading-state" id="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading recipes...</p>
                 </div>
             </div>
 
             <noscript>
-                <p class="noscript-message">
-                    JavaScript is required to browse recipes.
-                    <a href="https://github.com/tsuku-dev/tsuku-registry/tree/main/recipes">View recipes on GitHub</a>
-                </p>
+                <div class="noscript-message">
+                    <p>JavaScript is required to browse recipes.</p>
+                    <p><a href="https://github.com/tsuku-dev/tsuku-registry/tree/main/recipes">View recipes on GitHub</a></p>
+                </div>
             </noscript>
         </section>
 
