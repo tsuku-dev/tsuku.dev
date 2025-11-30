@@ -14,11 +14,11 @@ Add debounce function and search event listener to existing JavaScript. Reuse re
 
 ## Implementation Steps
 
-- [ ] Add debounce utility function (150ms)
-- [ ] Add search input event listener
-- [ ] Add filterRecipes function (case-insensitive match on name/description)
-- [ ] Update recipe count to show "X of Y" format when filtering
-- [ ] Handle empty search (show all recipes)
+- [x] Add debounce utility function (150ms)
+- [x] Add search input event listener
+- [x] Add filterRecipes function (case-insensitive match on name/description)
+- [x] Update recipe count to show "X of Y" format when filtering
+- [x] Handle empty search (show all recipes)
 
 ## Success Criteria
 
